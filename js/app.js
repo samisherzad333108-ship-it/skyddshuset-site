@@ -8,7 +8,8 @@ async function loadComponent(elementId, filePath) {
   try {
     const response = await fetch(filePath);
     const html = await response.text();
-    document.getElementById(elementId).innerHTML = html;
+    const targetEl = document.getElementById(elementId);
+    if (targetEl) targetEl.innerHTML = html;
   } catch (error) {
     console.error(`Failed to load ${filePath}:`, error);
   }
@@ -38,7 +39,7 @@ function renderProducts(cat = 'all', query = '') {
   if (filtered.length === 0) {
     grid.innerHTML = `
       <div class="col-span-2 text-center py-12 bg-white rounded-2xl border border-gray-100 shadow-sm">
-        <i class="fa-solid fa-box-open text-3xl text-gray-300 mb-2">
+        <i class="fa-solid fa-box-open text-3xl text-gray-300 mb-2"></i>
         <p class="text-xs text-gray-500 font-medium">Inga produkter hittades.</p>
       </div>
     `;
@@ -46,7 +47,7 @@ function renderProducts(cat = 'all', query = '') {
   }
 
   grid.innerHTML = filtered.map(p => `
-    <div onclick="openProductModal(${p.id})" class="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm cursor-pointer hover:shadow-md transition active:scale-95 flex flex-col justify-between">
+    <a href="product.html?id=${p.id}" class="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition active:scale-95 flex flex-col justify-between">
       <div>
         <div class="h-28 bg-gray-50 rounded-xl flex items-center justify-center mb-2 overflow-hidden">
           <img src="${p.img}" alt="${p.title}" class="h-full w-full object-cover" />
@@ -59,9 +60,9 @@ function renderProducts(cat = 'all', query = '') {
           <span class="font-extrabold text-sm text-slate-900">${p.price} kr</span>
           ${p.oldPrice ? `<span class="text-[10px] text-gray-400 line-through ml-1">${p.oldPrice} kr</span>` : ''}
         </div>
-        <button class="bg-slate-900 text-white text-[10px] px-2.5 py-1.5 rounded-lg font-bold">Köp</button>
+        <span class="bg-slate-900 text-white text-[10px] px-2.5 py-1.5 rounded-lg font-bold">Visa</span>
       </div>
-    </div>
+    </a>
   `).join('');
 }
 
@@ -72,7 +73,9 @@ function handleSearch() {
 
 function filterCategory(cat) {
   const content = document.getElementById('content-area');
-  content.classList.add('opacity-0', 'translate-y-2');
+  if (content) {
+    content.classList.add('opacity-0', 'translate-y-2');
+  }
   
   document.querySelectorAll('.cat-btn').forEach(btn => {
     btn.className = "cat-btn bg-white text-gray-700 border border-gray-200 px-5 py-2 rounded-full text-xs font-semibold shadow-sm";
@@ -84,13 +87,16 @@ function filterCategory(cat) {
 
   setTimeout(() => {
     renderProducts(cat);
-    content.classList.remove('opacity-0', 'translate-y-2');
+    if (content) {
+      content.classList.remove('opacity-0', 'translate-y-2');
+    }
   }, 200);
 }
 
 function toggleMenu(open) {
   const drawer = document.getElementById('side-drawer');
   const box = document.getElementById('drawer-menu-box');
+  if (!drawer || !box) return;
   if (open) {
     drawer.classList.remove('hidden');
     setTimeout(() => {
@@ -109,7 +115,8 @@ function openProductModal(id) {
   if (!p) return;
   currentModalProduct = p;
   qty = 1;
-  document.getElementById('qty-val').innerText = qty;
+  const qtyEl = document.getElementById('qty-val');
+  if (qtyEl) qtyEl.innerText = qty;
 
   document.getElementById('modal-img').src = p.img;
   document.getElementById('modal-cat').innerText = p.badge || 'Produkt';
@@ -131,30 +138,36 @@ function openProductModal(id) {
 
   const modal = document.getElementById('product-modal');
   const box = document.getElementById('modal-box');
-  modal.classList.remove('hidden');
-  setTimeout(() => {
-    modal.classList.remove('opacity-0');
-    box.classList.remove('translate-y-full');
-  }, 10);
+  if (modal && box) {
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      modal.classList.remove('opacity-0');
+      box.classList.remove('translate-y-full');
+    }, 10);
+  }
 }
 
 function closeProductModal(e) {
   if (e && e.target !== document.getElementById('product-modal')) return;
   const modal = document.getElementById('product-modal');
   const box = document.getElementById('modal-box');
-  box.classList.add('translate-y-full');
-  modal.classList.add('opacity-0');
-  setTimeout(() => modal.classList.add('hidden'), 250);
+  if (modal && box) {
+    box.classList.add('translate-y-full');
+    modal.classList.add('opacity-0');
+    setTimeout(() => modal.classList.add('hidden'), 250);
+  }
 }
 
 function updateQty(change) {
   qty = Math.max(1, qty + change);
-  document.getElementById('qty-val').innerText = qty;
+  const qtyEl = document.getElementById('qty-val');
+  if (qtyEl) qtyEl.innerText = qty;
 }
 
 function toggleCart(open) {
   const drawer = document.getElementById('cart-drawer');
   const box = document.getElementById('cart-box');
+  if (!drawer || !box) return;
   if (open) {
     drawer.classList.remove('hidden');
     setTimeout(() => {
@@ -173,24 +186,29 @@ function addToCart() {
   for (let i = 0; i < qty; i++) {
     cart.push(currentModalProduct);
   }
-  document.getElementById('cart-count').innerText = cart.length;
+  
+  const countEl = document.getElementById('cart-count');
+  if (countEl) countEl.innerText = cart.length;
   
   const container = document.getElementById('cart-items');
-  document.getElementById('empty-cart-msg')?.remove();
-  
-  const itemEl = document.createElement('div');
-  itemEl.className = "flex justify-between items-center bg-gray-50 p-3 rounded-xl border text-xs";
-  itemEl.innerHTML = `
-    <div>
-      <p class="font-bold text-slate-800">${currentModalProduct.title} (x${qty})</p>
-      <p class="text-[10px] text-gray-500">${currentModalProduct.badge || ''}</p>
-    </div>
-    <span class="font-extrabold text-blue-600">${currentModalProduct.price * qty} kr</span>
-  `;
-  container.appendChild(itemEl);
+  if (container) {
+    document.getElementById('empty-cart-msg')?.remove();
+    
+    const itemEl = document.createElement('div');
+    itemEl.className = "flex justify-between items-center bg-gray-50 p-3 rounded-xl border text-xs";
+    itemEl.innerHTML = `
+      <div>
+        <p class="font-bold text-slate-800">${currentModalProduct.title} (x${qty})</p>
+        <p class="text-[10px] text-gray-500">${currentModalProduct.badge || ''}</p>
+      </div>
+      <span class="font-extrabold text-blue-600">${currentModalProduct.price * qty} kr</span>
+    `;
+    container.appendChild(itemEl);
+  }
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
-  document.getElementById('cart-total').innerText = `${total} kr`;
+  const totalEl = document.getElementById('cart-total');
+  if (totalEl) totalEl.innerText = `${total} kr`;
 
   closeProductModal();
   toggleCart(true);
