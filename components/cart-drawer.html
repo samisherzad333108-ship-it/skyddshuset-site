@@ -1,1 +1,21 @@
+<div id="cart-drawer" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" onclick="toggleCart(false)">
+  <div id="cart-box" class="fixed right-0 top-0 bottom-0 w-80 bg-white p-6 transform translate-x-full drawer-transition shadow-2xl flex flex-col justify-between" onclick="event.stopPropagation()">
+    <div>
+      <div class="flex justify-between items-center border-b pb-4">
+        <h2 class="text-lg font-bold text-slate-900">Varukorg</h2>
+        <button onclick="toggleCart(false)" class="text-gray-400 hover:text-gray-700"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+      <div id="cart-items" class="mt-4 space-y-3">
+        <p id="empty-cart-msg" class="text-xs text-gray-400 text-center py-8">Din varukorg är tom.</p>
+      </div>
+    </div>
+    <div class="border-t pt-4">
+      <div class="flex justify-between font-bold text-sm mb-4">
+        <span>Totalt:</span>
+        <span id="cart-total">0 kr</span>
+      </div>
+      <button onclick="alert('Går till kassan!')" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl text-sm shadow-md hover:bg-blue-700 transition">Till kassan</button>
+    </div>
+  </div>
+</div>
 
