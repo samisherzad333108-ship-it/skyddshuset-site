@@ -3,7 +3,7 @@ let cart = [];
 let currentModalProduct = null;
 let qty = 1;
 
-// Helper function to dynamically load component files
+// Load external HTML components
 async function loadComponent(elementId, filePath) {
   try {
     const response = await fetch(filePath);
@@ -25,7 +25,7 @@ async function loadProducts() {
   }
 }
 
-// Render product cards grid
+// Render product cards or empty state message
 function renderProducts(cat = 'all', query = '') {
   const grid = document.getElementById('product-grid');
   if (!grid) return;
@@ -35,13 +35,23 @@ function renderProducts(cat = 'all', query = '') {
     filtered = filtered.filter(p => p.title.toLowerCase().includes(query.toLowerCase()));
   }
 
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="col-span-2 text-center py-12 bg-white rounded-2xl border border-gray-100 shadow-sm">
+        <i class="fa-solid fa-box-open text-3xl text-gray-300 mb-2">
+        <p class="text-xs text-gray-500 font-medium">Inga produkter hittades.</p>
+      </div>
+    `;
+    return;
+  }
+
   grid.innerHTML = filtered.map(p => `
     <div onclick="openProductModal(${p.id})" class="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm cursor-pointer hover:shadow-md transition active:scale-95 flex flex-col justify-between">
       <div>
         <div class="h-28 bg-gray-50 rounded-xl flex items-center justify-center mb-2 overflow-hidden">
           <img src="${p.img}" alt="${p.title}" class="h-full w-full object-cover" />
         </div>
-        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">${p.badge}</span>
+        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">${p.badge || 'Produkt'}</span>
         <h3 class="font-bold text-xs text-slate-800 line-clamp-2 mt-0.5">${p.title}</h3>
       </div>
       <div class="mt-2 flex items-center justify-between">
@@ -56,7 +66,7 @@ function renderProducts(cat = 'all', query = '') {
 }
 
 function handleSearch() {
-  const query = document.getElementById('search-input').value;
+  const query = document.getElementById('search-input')?.value || '';
   renderProducts('all', query);
 }
 
@@ -102,11 +112,11 @@ function openProductModal(id) {
   document.getElementById('qty-val').innerText = qty;
 
   document.getElementById('modal-img').src = p.img;
-  document.getElementById('modal-cat').innerText = p.badge;
+  document.getElementById('modal-cat').innerText = p.badge || 'Produkt';
   document.getElementById('modal-title').innerText = p.title;
-  document.getElementById('modal-sku').innerText = `SKU: ${p.sku}`;
+  document.getElementById('modal-sku').innerText = `SKU: ${p.sku || 'N/A'}`;
   document.getElementById('modal-price').innerText = `${p.price},00 kr`;
-  document.getElementById('modal-desc').innerText = p.desc;
+  document.getElementById('modal-desc').innerText = p.desc || '';
   
   const oldPriceEl = document.getElementById('modal-old-price');
   const badgeEl = document.getElementById('modal-badge');
@@ -173,7 +183,7 @@ function addToCart() {
   itemEl.innerHTML = `
     <div>
       <p class="font-bold text-slate-800">${currentModalProduct.title} (x${qty})</p>
-      <p class="text-[10px] text-gray-500">${currentModalProduct.badge}</p>
+      <p class="text-[10px] text-gray-500">${currentModalProduct.badge || ''}</p>
     </div>
     <span class="font-extrabold text-blue-600">${currentModalProduct.price * qty} kr</span>
   `;
@@ -199,4 +209,3 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   loadProducts();
 });
-
