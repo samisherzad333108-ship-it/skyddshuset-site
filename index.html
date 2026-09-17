@@ -237,5 +237,167 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skyddshuset - Premiumskydd för din teknik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased pb-12">
+
+  <!-- Header Bar -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-30">
+    <div class="px-4 py-3 flex items-center justify-between">
+      <button onclick="toggleMenu(true)" class="text-gray-800 text-xl focus:outline-none">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="text-center">
+        <h1 class="text-xl font-black tracking-tight text-slate-900">Skyddshuset</h1>
+        <p class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Premiumskydd för din teknik</p>
+      </div>
+      <div class="relative">
+        <button class="text-gray-800 text-xl">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="absolute -top-2 -right-2 bg-blue-800 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">3</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Input Bar -->
+    <div class="px-4 pb-3 flex items-center gap-2">
+      <div class="flex-1 flex items-center border border-gray-200 rounded-lg px-3 py-1.5 bg-white shadow-sm">
+        <select class="bg-transparent text-xs text-gray-500 border-r pr-2 mr-2 outline-none">
+          <option>Alla kategorier</option>
+        </select>
+        <input type="text" placeholder="Vad letar du efter?" class="w-full text-xs outline-none bg-transparent" />
+        <i class="fa-solid fa-microphone text-gray-400 text-xs ml-2"></i>
+        <i class="fa-solid fa-magnifying-glass text-gray-600 text-xs ml-2"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Product Detail Section -->
+  <main class="max-w-md mx-auto p-4 space-y-4">
+    <!-- Image Slider Showcase -->
+    <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm relative">
+      <div class="h-72 flex items-center justify-center overflow-hidden">
+        <img id="main-product-img" src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=600" alt="Produktbild" class="h-full object-contain" />
+      </div>
+      <!-- Image Pagination Dots -->
+      <div class="flex justify-center items-center gap-1.5 mt-3">
+        <span class="h-2 w-2 rounded-full bg-slate-900"></span>
+        <span class="h-2 w-2 rounded-full bg-gray-300"></span>
+        <span class="h-2 w-2 rounded-full bg-gray-300"></span>
+      </div>
+    </div>
+
+    <!-- Product Meta -->
+    <div class="space-y-2">
+      <h2 class="text-lg font-bold text-slate-900 leading-snug">iPhone 18 Pro / 17 Pro Magnetiskt Skal PC/TPU - Lila</h2>
+      <p class="text-xs text-gray-400 font-medium">SKU: 6601232118D</p>
+      
+      <div class="flex items-center gap-2 pt-1">
+        <span class="text-red-600 text-xl font-black">89,00 kr</span>
+        <span class="text-xs text-gray-400 line-through">129,00 kr</span>
+        <span class="bg-red-100 text-red-600 text-[10px] font-bold px-1.5 py-0.5 rounded">-31%</span>
+      </div>
+
+      <div class="flex items-center gap-2 pt-1 text-xs text-emerald-600 font-semibold">
+        <span class="h-2.5 w-2.5 rounded-full bg-blue-600"></span>
+        <span>I lager</span>
+      </div>
+    </div>
+
+    <!-- Actions Bar -->
+    <div class="flex items-center gap-3 pt-2">
+      <div class="flex items-center border rounded-lg bg-white shadow-sm">
+        <button onclick="updateQty(-1)" class="px-3 py-2 text-gray-500 font-bold text-sm">-</button>
+        <span id="qty-val" class="px-3 text-xs font-bold text-slate-800">1</span>
+        <button onclick="updateQty(1)" class="px-3 py-2 text-gray-500 font-bold text-sm">+</button>
+      </div>
+      <button class="flex-1 bg-gray-200 text-gray-700 font-bold py-2.5 rounded-lg text-xs shadow-sm active:scale-95 transition">Add to cart</button>
+    </div>
+
+    <button class="w-full bg-slate-900 text-white font-bold py-3 rounded-lg text-xs shadow-md flex items-center justify-center gap-2">
+      <span>Köp med</span>
+      <span class="font-extrabold text-sm">G Pay</span>
+    </button>
+  </main>
+
+  <!-- Navigation Drawer (Left Side Menu) -->
+  <div id="side-drawer" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden transition-opacity duration-300">
+    <div id="drawer-content" class="w-4/5 max-w-xs bg-white h-full shadow-2xl flex flex-col transform -translate-x-full transition-transform duration-300">
+      
+      <!-- Blue Greeting Header -->
+      <div class="bg-blue-800 text-white p-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-semibold">Välkommen till Skyddshuset</span>
+        </div>
+        <i class="fa-regular fa-user text-lg"></i>
+      </div>
+
+      <!-- Category Links List -->
+      <div class="overflow-y-auto flex-1 p-4 space-y-4 text-sm font-semibold text-slate-700">
+        <div class="flex items-center justify-between cursor-pointer border-b pb-2">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-house text-gray-500"></i> Hem</span>
+        </div>
+
+        <div class="flex items-center justify-between cursor-pointer border-b pb-2">
+          <span class="flex items-center gap-3"><i class="fa-brands fa-apple text-gray-700"></i> Apple</span>
+          <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+        </div>
+
+        <div class="flex items-center justify-between cursor-pointer border-b pb-2">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-mobile-screen text-gray-500"></i> Samsung</span>
+          <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+        </div>
+
+        <div class="flex items-center justify-between cursor-pointer border-b pb-2">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-plug text-gray-500"></i> Laddare & Kablar</span>
+          <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+        </div>
+
+        <div class="flex items-center justify-between cursor-pointer border-b pb-2">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-headphones text-gray-500"></i> Hörlurar & Headset</span>
+          <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+        </div>
+      </div>
+
+      <div class="p-4 border-t">
+        <button onclick="toggleMenu(false)" class="w-full py-2 bg-gray-100 text-gray-700 rounded-lg text-xs font-bold">Stäng meny</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Chat Widget Button -->
+  <button class="fixed bottom-4 right-4 bg-white border border-gray-200 text-slate-800 text-xs font-bold px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2">
+    <i class="fa-regular fa-comment text-sm"></i>
+    <span>Chatt</span>
+  </button>
+
+  <script>
+    function toggleMenu(open) {
+      const drawer = document.getElementById('side-drawer');
+      const content = document.getElementById('drawer-content');
+      if (open) {
+        drawer.classList.remove('hidden');
+        setTimeout(() => content.classList.remove('-translate-x-full'), 10);
+      } else {
+        content.classList.add('-translate-x-full');
+        setTimeout(() => drawer.classList.add('hidden'), 300);
+      }
+    }
+
+    let qty = 1;
+    function updateQty(change) {
+      qty = Math.max(1, qty + change);
+      document.getElementById('qty-val').innerText = qty;
+    }
+  </script>
+</body>
+</html>
 
 
