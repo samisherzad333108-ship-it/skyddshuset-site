@@ -1,84 +1,4 @@
-html lang="sv">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skyddshuset</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #f6f6f6; color: #111827; }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .page { display: none; }
-    .page.active { display: block; }
-  </style>
-</head>
-<body>
-
-  <!-- Announcement Banner -->
-  <div class="bg-[#1f3b76] text-white text-xs py-2 px-4 flex justify-between items-center">
-    <span><i class="fa-solid fa-truck-fast mr-1"></i> Gratis frakt över 499 kr</span>
-    <span class="font-bold">Skyddshuset</span>
-  </div>
-
-  <!-- Header -->
-  <header class="bg-white sticky top-0 z-40 border-b border-gray-100 shadow-sm px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <button onclick="showPage('home')" class="text-left">
-        <h1 class="font-extrabold text-lg tracking-tight text-[#1f3b76] leading-none">Skyddshuset</h1>
-        <p class="text-[10px] text-gray-500 font-medium tracking-wide uppercase">Tillbehör till mobilen</p>
-      </button>
-    </div>
-    <div class="flex items-center space-x-3 text-gray-700">
-      <button onclick="showPage('home')"><i class="fa-solid fa-house"></i></button>
-      <i class="fa-solid fa-bag-shopping"></i>
-    </div>
-  </header>
-
-  <!-- Category Nav Bar -->
-  <div class="max-w-md mx-auto px-3 pt-3">
-    <div class="flex space-x-2 overflow-x-auto no-scrollbar py-1">
-      <button id="nav-home" onclick="showPage('home')" class="flex-none bg-[#1f3b76] text-white rounded-full px-4 py-1.5 text-xs font-semibold shadow-sm">Alla</button>
-      <button id="nav-horlurar" onclick="showPage('horlurar')" class="flex-none bg-white border border-gray-200 rounded-full px-4 py-1.5 text-xs font-semibold text-gray-700 shadow-sm">Hörlurar</button>
-      <button id="nav-laddare" onclick="showPage('laddare')" class="flex-none bg-white border border-gray-200 rounded-full px-4 py-1.5 text-xs font-semibold text-gray-700 shadow-sm">Laddare & Kablar</button>
-    </div>
-  </div>
-
-  <!-- MAIN CONTAINER -->
-  <main class="max-w-md mx-auto pb-24 px-3 pt-3">
-
-    <!-- PAGE 1: HOME -->
-    <div id="page-home" class="page active space-y-4">
-      <!-- Hero Banner -->
-      <div class="relative bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-5 text-white overflow-hidden shadow-lg">
-        <span class="bg-red-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider">Största rean någonsin</span>
-        <h2 class="text-xl font-extrabold mt-2 leading-tight">Upp till 50% rabatt</h2>
-        <p class="text-xs text-gray-300 mt-1">Skydda din telefon med stil och kvalitet.</p>
-        <button onclick="showPage('horlurar')" class="mt-4 bg-white text-slate-900 text-xs font-bold px-4 py-2 rounded-xl shadow hover:bg-gray-100">Utforska Nu</button>
-      </div>
-
-      <!-- Categories Grid -->
-      <div class="grid grid-cols-2 gap-3">
-        <div onclick="showPage('horlurar')" class="cursor-pointer bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center space-y-2">
-          <div class="w-12 h-12 bg-blue-50 text-[#1f3b76] rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-headphones"></i></div>
-          <span class="font-bold text-xs text-gray-800">Hörlurar</span>
-        </div>
-        <div onclick="showPage('laddare')" class="cursor-pointer bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center space-y-2">
-          <div class="w-12 h-12 bg-blue-50 text-[#1f3b76] rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-bolt"></i></div>
-          <span class="font-bold text-xs text-gray-800">Laddare & Kablar</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- PAGE 2: HÖRLURAR -->
-    <div id="page-horlurar" class="page space-y-4">
-      <h2 class="font-bold text-gray-900 text-base">Alla Hörlurar</h2>
-
-      <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex space-x-3 items-center">
-        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=200&q=80" class="w-20 h-20 object-cover rounded-xl" />
-        <div class="flex-1 space-y-1">
-          <span class="bg-red-600 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase">Trådlöst</span>
+     <span class="bg-red-600 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase">Trådlöst</span>
           <h3 class="font-bold text-gray-800 text-xs">Wireless Over-Ear Headphones</h3>
           <p class="text-xs font-extrabold text-[#1f3b76]">599 kr <span class="text-gray-400 line-through text-[10px]">899 kr</span></p>
           <button class="bg-[#1f3b76] text-white text-xs px-3 py-1.5 rounded-lg font-bold w-full mt-2">Köp nu</button>
@@ -146,5 +66,5 @@ html lang="sv">
     }
   </script>
 </body>
-</html>
+</html
 
