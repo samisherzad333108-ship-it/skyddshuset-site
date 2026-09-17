@@ -1,1 +1,154 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produkt | Skyddshuset</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .drawer-transition { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-900 pb-20">
+
+  <!-- Component Containers -->
+  <div id="announcement-wrapper"></div>
+  <div id="header-wrapper"></div>
+  <div id="menu-wrapper"></div>
+
+  <!-- Product Details Section -->
+  <main class="max-w-md mx-auto px-4 pt-4">
+    
+    <!-- Back Button -->
+    <a href="index.html" class="inline-flex items-center gap-2 text-xs font-bold text-gray-600 mb-4 hover:text-slate-900">
+      <i class="fa-solid fa-arrow-left"></i>
+      <span>Tillbaka till start</span>
+    </a>
+
+    <!-- Product Card Container -->
+    <div id="product-container" class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm space-y-4">
+      
+      <!-- Product Image -->
+      <div class="h-64 bg-gray-50 rounded-2xl flex items-center justify-center overflow-hidden p-4 border border-gray-100">
+        <img id="product-img" src="" alt="Produktbild" class="h-full object-contain" />
+      </div>
+
+      <!-- Category & Title -->
+      <div>
+        <span id="product-badge" class="text-[10px] font-extrabold text-blue-600 uppercase tracking-widest">Kategori</span>
+        <h1 id="product-title" class="text-xl font-black text-slate-900 mt-1 leading-snug">Produktnamn</h1>
+        <p id="product-sku" class="text-xs text-gray-400 font-medium mt-0.5">SKU: N/A</p>
+      </div>
+
+      <!-- Pricing & Stock -->
+      <div class="flex items-center justify-between border-y border-gray-100 py-3">
+        <div class="flex items-center gap-2">
+          <span id="product-price" class="text-2xl font-black text-slate-900">0 kr</span>
+          <span id="product-old-price" class="text-xs text-gray-400 line-through hidden">0 kr</span>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-emerald-600 font-semibold">
+          <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+          <span>I lager</span>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-1">Beskrivning</h3>
+        <p id="product-desc" class="text-xs text-gray-600 leading-relaxed">Det finns ingen beskrivning tillgänglig för denna produkt.</p>
+      </div>
+
+      <!-- Quantity Selector & Actions -->
+      <div class="pt-2 space-y-3">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center border border-gray-300 rounded-xl bg-white shadow-sm">
+            <button onclick="changeQty(-1)" class="px-3.5 py-2.5 text-gray-500 font-bold text-sm hover:bg-gray-50">-</button>
+            <span id="product-qty" class="px-3 text-xs font-bold text-slate-800">1</span>
+            <button onclick="changeQty(1)" class="px-3.5 py-2.5 text-gray-500 font-bold text-sm hover:bg-gray-50">+</button>
+          </div>
+          <button onclick="handleAddToCart()" class="flex-1 bg-slate-900 text-white font-bold py-3 rounded-xl text-xs shadow-md hover:bg-slate-800 transition active:scale-95">
+            Lägg i varukorg
+          </button>
+        </div>
+
+        <button onclick="handleAddToCart()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl text-xs shadow-md hover:bg-blue-700 transition flex items-center justify-center gap-2">
+          <span>Köp nu</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="cart-wrapper"></div>
+
+  <!-- Shared Application Logic -->
+  <script src="js/app.js"></script>
+
+  <!-- Page Logic to Parse URL and Render Specific Product -->
+  <script>
+    let singleProductQty = 1;
+    let selectedProduct = null;
+
+    function changeQty(change) {
+      singleProductQty = Math.max(1, singleProductQty + change);
+      document.getElementById('product-qty').innerText = singleProductQty;
+    }
+
+    async function initProductPage() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = parseInt(urlParams.get('id'));
+
+      try {
+        const response = await fetch('data/products.json');
+        const allProducts = await response.json();
+        
+        selectedProduct = allProducts.find(p => p.id === productId);
+
+        if (!selectedProduct) {
+          document.getElementById('product-container').innerHTML = `
+            <div class="text-center py-12">
+              <i class="fa-solid fa-circle-exclamation text-3xl text-gray-300 mb-2"></i>
+              <p class="text-xs text-gray-500 font-medium">Produkten kunde inte hittas.</p>
+              <a href="index.html" class="inline-block mt-4 bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-xl">Tillbaka till alla produkter</a>
+            </div>
+          `;
+          return;
+        }
+
+        // Populate fields
+        document.getElementById('product-img').src = selectedProduct.img || 'https://via.placeholder.com/300';
+        document.getElementById('product-badge').innerText = selectedProduct.badge || 'Produkt';
+        document.getElementById('product-title').innerText = selectedProduct.title || 'Produktnamn';
+        document.getElementById('product-sku').innerText = `SKU: ${selectedProduct.sku || 'N/A'}`;
+        document.getElementById('product-price').innerText = `${selectedProduct.price} kr`;
+        document.getElementById('product-desc').innerText = selectedProduct.desc || 'Ingen beskrivning tillgänglig.';
+
+        if (selectedProduct.oldPrice) {
+          const oldPriceEl = document.getElementById('product-old-price');
+          oldPriceEl.innerText = `${selectedProduct.oldPrice} kr`;
+          oldPriceEl.classList.remove('hidden');
+        }
+
+        document.title = `${selectedProduct.title} | Skyddshuset`;
+      } catch (err) {
+        console.error("Error loading product detail:", err);
+      }
+    }
+
+    function handleAddToCart() {
+      if (!selectedProduct) return;
+      currentModalProduct = selectedProduct;
+      qty = singleProductQty;
+      addToCart();
+    }
+
+    // Initialize page after DOM and components are ready
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(initProductPage, 100);
+    });
+  </script>
+</body>
+</html>
 
